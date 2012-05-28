@@ -366,10 +366,8 @@ namespace UIT2012.Lab4
         {
             // Convert point to depth space.  
             // We are not using depth directly, but we do want the points in our 640x480 output resolution.
-            DepthImagePoint depthPoint = this.sensor.MapSkeletonPointToDepth(
-                                                                             skelpoint,
-                                                                             DepthImageFormat.Resolution640x480Fps30);
-            return new Point(depthPoint.X, depthPoint.Y);
+            ColorImagePoint colourPoint = this.sensor.MapSkeletonPointToColor(skelpoint, ColorImageFormat.RgbResolution640x480Fps30);
+            return new Point(colourPoint.X, colourPoint.Y);
         }
 
         /// <summary>
