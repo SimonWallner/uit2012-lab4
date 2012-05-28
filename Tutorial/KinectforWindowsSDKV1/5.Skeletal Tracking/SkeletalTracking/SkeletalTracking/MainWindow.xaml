@@ -3,13 +3,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="600" Width="800" Loaded="Window_Loaded" 
         xmlns:my="clr-namespace:Microsoft.Samples.Kinect.WpfViewers;assembly=Microsoft.Samples.Kinect.WpfViewers" 
+        xmlns:Controls="clr-namespace:Coding4Fun.Kinect.Wpf.Controls;assembly=Coding4Fun.Kinect.Wpf"
         Closing="Window_Closing" WindowState="Maximized">       
     <Canvas Name="MainCanvas">
-        <my:KinectColorViewer Canvas.Left="0" Canvas.Top="0" Width="640" Height="480" Name="kinectColorViewer1" 
+        <my:KinectColorViewer Canvas.Left="0" Canvas.Top="0" Width="778" Height="561" Name="kinectColorViewer1" 
                               Kinect="{Binding ElementName=kinectSensorChooser1, Path=Kinect}" />
-        <Ellipse Canvas.Left="0" Canvas.Top="0" Height="50" Name="leftEllipse"  Width="50" Fill="#FF4D298D" Opacity="1" Stroke="White" />
-        <Ellipse Canvas.Left="100" Canvas.Top="0" Fill="#FF2CACE3" Height="50" Name="rightEllipse" Width="50" Opacity="1" Stroke="White" />
-        <my:KinectSensorChooser Canvas.Left="250" Canvas.Top="380" Name="kinectSensorChooser1" Width="328" />
-        <Image Canvas.Left="66" Canvas.Top="90" Height="87" Name="headImage" Stretch="Fill" Width="84" Source="/SkeletalTracking;component/c4f-color.png" />
+        <Ellipse Canvas.Left="282" Canvas.Top="168" Height="25" Name="leftEllipse"  Width="25" Fill="MediumVioletRed" Opacity="1" Stroke="White" />
+        <Ellipse Canvas.Left="451" Canvas.Top="168" Fill="MediumVioletRed" Height="25" Name="rightEllipse" Width="25" Opacity="1" Stroke="White" />
+        <my:KinectSensorChooser Canvas.Left="225" Canvas.Top="239" Name="kinectSensorChooser1" Width="328" />
+        <Image Canvas.Left="333" Canvas.Top="83" Height="87" Name="headImage" Stretch="Fill" Width="84" Source="/SkeletalTracking;component/c4f-color.png" />
+        <Rectangle Canvas.Left="636" Canvas.Top="70" Height="100" Name="rectangle1" Stroke="Black" Width="130" />
+        <Rectangle Canvas.Left="636" Canvas.Top="195" Height="100" Name="rectangleWXYZ" Stroke="Black" Width="130" />
+        <Rectangle Canvas.Left="636" Canvas.Top="320" Height="100" Name="rectangleTUV" Stroke="Black" Width="130" />
+        <Rectangle Canvas.Left="506" Canvas.Top="448" Height="100" Name="rectanglePQRS" Stroke="Black" Width="130" />
+        <Rectangle Canvas.Left="323" Canvas.Top="448" Height="100" Name="rectangleMNO" Stroke="Black" Width="130" />
+        <Rectangle Canvas.Left="141" Canvas.Top="448" Height="100" Name="rectangleJKL" Stroke="Black" Width="130" />
+        <Rectangle Canvas.Left="12" Canvas.Top="320" Height="100" Name="rectangleGHI" Stroke="Black" Width="130" />
+        <Rectangle Canvas.Left="12" Canvas.Top="195" Height="100" Name="rectangleDEF" Stroke="Black" Width="130" />
+        <Rectangle Canvas.Left="12" Canvas.Top="70" Height="100" Name="rectangleABC" Stroke="Black" Width="130" />
+        <Rectangle Canvas.Left="141" Canvas.Top="13" Height="42" Name="rectangle2" Stroke="Black" Width="495" />
+        <TextBlock Canvas.Left="57" Canvas.Top="110" Height="39" Name="textBlock1" Text="ABC" Width="67" />
+        
+            <Controls:HoverButton x:Name="kinectButton" ImageSize="100" ImageSource="/Resources/RedButton-Hover.png"  ActiveImageSource="/Resources/RedButton-Active.png" IsTriggeredOnHover="True" Canvas.Left="631" Canvas.Top="34" />
     </Canvas>
 </Window>
