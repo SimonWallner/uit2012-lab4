@@ -108,46 +108,6 @@ namespace UIT2012.Lab4
 		}
 
 		/// <summary>
-		/// Draws indicators to show which edges are clipping skeleton data
-		/// </summary>
-		/// <param name="skeleton">skeleton to draw clipping information for</param>
-		/// <param name="drawingContext">drawing context to draw to</param>
-		private static void RenderClippedEdges(Skeleton skeleton, DrawingContext drawingContext)
-		{
-			if (skeleton.ClippedEdges.HasFlag(FrameEdges.Bottom))
-			{
-				drawingContext.DrawRectangle(
-					Brushes.Red,
-					null,
-					new Rect(0, RenderHeight - ClipBoundsThickness, RenderWidth, ClipBoundsThickness));
-			}
-
-			if (skeleton.ClippedEdges.HasFlag(FrameEdges.Top))
-			{
-				drawingContext.DrawRectangle(
-					Brushes.Red,
-					null,
-					new Rect(0, 0, RenderWidth, ClipBoundsThickness));
-			}
-
-			if (skeleton.ClippedEdges.HasFlag(FrameEdges.Left))
-			{
-				drawingContext.DrawRectangle(
-					Brushes.Red,
-					null,
-					new Rect(0, 0, ClipBoundsThickness, RenderHeight));
-			}
-
-			if (skeleton.ClippedEdges.HasFlag(FrameEdges.Right))
-			{
-				drawingContext.DrawRectangle(
-					Brushes.Red,
-					null,
-					new Rect(RenderWidth - ClipBoundsThickness, 0, ClipBoundsThickness, RenderHeight));
-			}
-		}
-
-		/// <summary>
 		/// Execute startup tasks
 		/// </summary>
 		/// <param name="sender">object sending the event</param>
@@ -257,8 +217,6 @@ namespace UIT2012.Lab4
 				{
 					foreach (Skeleton skel in skeletons)
 					{
-						RenderClippedEdges(skel, dc);
-
 						if (skel.TrackingState == SkeletonTrackingState.Tracked)
 						{
 							this.DrawBonesAndJoints(skel, dc);
@@ -266,11 +224,11 @@ namespace UIT2012.Lab4
 						else if (skel.TrackingState == SkeletonTrackingState.PositionOnly)
 						{
 							dc.DrawEllipse(
-							this.centerPointBrush,
-							null,
-							this.SkeletonPointToScreen(skel.Position),
-							BodyCenterThickness,
-							BodyCenterThickness);
+								this.centerPointBrush,
+								null,
+								this.SkeletonPointToScreen(skel.Position),
+								BodyCenterThickness,
+								BodyCenterThickness);
 						}
 					}
 				}
