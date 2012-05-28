@@ -9,6 +9,7 @@ namespace UIT2012.Lab4
     using System.IO;
     using System.Windows;
     using System.Windows.Media;
+    using System.Windows.Media.Imaging;
     using Microsoft.Kinect;
 
     /// <summary>
@@ -80,6 +81,17 @@ namespace UIT2012.Lab4
         /// Drawing image that we will display
         /// </summary>
         private DrawingImage imageSource;
+
+        /// <summary>
+        /// Bitmap that will hold color information
+        /// </summary>
+        private WriteableBitmap colorBitmap;
+
+        /// <summary>
+        /// Intermediate storage for the color data received from the camera
+        /// </summary>
+        private byte[] colorPixels;
+
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -157,8 +169,8 @@ namespace UIT2012.Lab4
                     break;
                 }
             }
-
-            if (null != this.sensor)
+             
+            if (this.sensor != null)
             {
                 // Turn on the skeleton stream to receive skeleton frames
                 this.sensor.SkeletonStream.Enable();
@@ -177,7 +189,7 @@ namespace UIT2012.Lab4
                 }
             }
 
-            if (null == this.sensor)
+            if (this.sensor == null)
             {
                 this.statusBarText.Text = Properties.Resources.NoKinectReady;
             }
@@ -190,7 +202,7 @@ namespace UIT2012.Lab4
         /// <param name="e">event arguments</param>
         private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (null != this.sensor)
+            if (this.sensor != null)
             {
                 this.sensor.Stop();
             }
@@ -361,7 +373,7 @@ namespace UIT2012.Lab4
         /// <param name="e">event arguments</param>
         private void CheckBoxSeatedModeChanged(object sender, RoutedEventArgs e)
         {
-            if (null != this.sensor)
+            if (this.sensor == null)
             {
                 if (this.checkBoxSeatedMode.IsChecked.GetValueOrDefault())
                 {
