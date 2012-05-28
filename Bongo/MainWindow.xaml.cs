@@ -6,6 +6,7 @@
 
 namespace UIT2012.Lab4
 {
+    using System;
     using System.IO;
     using System.Windows;
     using System.Windows.Media;
@@ -155,7 +156,7 @@ namespace UIT2012.Lab4
             this.imageSource = new DrawingImage(this.drawingGroup);
 
             // Display the drawing using our image control
-            Image.Source = this.imageSource;
+            SkeletonImage.Source = this.imageSource;
 
             // Look through all sensors and start the first connected one.
             // This requires that a Kinect is connected at the time of app startup.
@@ -185,10 +186,10 @@ namespace UIT2012.Lab4
                 this.colorBitmap = new WriteableBitmap(this.sensor.ColorStream.FrameWidth, this.sensor.ColorStream.FrameHeight, 96.0, 96.0, PixelFormats.Bgr32, null);
 
                 // Set the image we display to point to the bitmap where we'll put the image data
-                this.Image1.Source = this.colorBitmap;
+                this.ColourImage.Source = this.colorBitmap;
 
 
-                // Add an event handler to be called whenever there is new color frame data
+                // Add an event handler to be called whenever there is new skeleton frame data
                 this.sensor.SkeletonFrameReady += this.SensorSkeletonFrameReady;
 
                 // Add an event handler to be called whenever there is new color frame data
@@ -246,7 +247,7 @@ namespace UIT2012.Lab4
             using (DrawingContext dc = this.drawingGroup.Open())
             {
                 // Draw a transparent background to set the render size
-                dc.DrawRectangle(Brushes.Black, null, new Rect(0.0, 0.0, RenderWidth, RenderHeight));
+                dc.DrawRectangle(Brushes.Transparent, null, new Rect(0.0, 0.0, RenderWidth, RenderHeight));
 
                 if (skeletons.Length != 0)
                 {
