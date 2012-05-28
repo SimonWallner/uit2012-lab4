@@ -10,3 +10,13 @@
 *.lai
 *.la
 *.a
+
+# random files
+.swp
+.cache
+
+# project files etc...
+*.suo
+bin
+obj
+
