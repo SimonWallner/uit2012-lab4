@@ -123,6 +123,8 @@ namespace UIT2012.Lab4
 
 		private List<TouchTarget> targets;
 
+		private Input input;
+
 
 		/// <summary>
 		/// Initializes a new instance of the MainWindow class.
@@ -148,6 +150,8 @@ namespace UIT2012.Lab4
 			{
 				target.registerCollisionCallback(this.collisionOccured);
 			}
+
+			this.input = new Input();
 		}
 
 		/// <summary>
@@ -245,6 +249,10 @@ namespace UIT2012.Lab4
 			double currentT = this.timer.ElapsedMilliseconds;
 			this.deltaT = currentT - this.lastT;
 			this.lastT = currentT;
+
+			this.input.tick(deltaT);
+			this.TextInputBox.Text = this.input.Text;
+
 			
 			if (this.drawDebug)
 				this.refreshRate.Text = "frametime: " + this.deltaT + "ms";
@@ -329,7 +337,10 @@ namespace UIT2012.Lab4
 
 		private void collisionOccured(TouchTarget.State state, String s)
 		{
-			Console.WriteLine("colission happened: " + s);
+			if (state == TouchTarget.State.enter)
+			{
+				this.input.enter("ABC");
+			}
 		}
 
 		/// <summary>

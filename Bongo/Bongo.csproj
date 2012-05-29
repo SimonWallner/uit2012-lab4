@@ -69,6 +69,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Input.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="TouchTarget.cs" />
     <Compile Include="MainWindow.xaml.cs">

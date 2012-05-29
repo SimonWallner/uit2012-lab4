@@ -69,5 +69,6 @@
 			</StatusBarItem>
 		</StatusBar>
 		<TextBlock Name="refreshRate" HorizontalAlignment="Right" Margin="0,0,0,10" Grid.Row="3">Refresh Rate</TextBlock>
+		<TextBlock Name="TextInputBox" Margin="215,72,261,425" Grid.Row="1" FontSize="18">Input</TextBlock>
 	</Grid>
 </Window>
