@@ -12,7 +12,7 @@ namespace UIT2012.Lab4
 	using System.Windows.Media;
 	using System.Windows.Media.Imaging;
 	using Microsoft.Kinect;
-
+	using System.Diagnostics;
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
@@ -98,6 +98,21 @@ namespace UIT2012.Lab4
 		/// </summary>
 		private bool drawDebug;
 
+		/// <summary>
+		/// hip precission timer for frame time calculations
+		/// </summary>
+		private Stopwatch timer;
+
+		/// <summary>
+		/// last frame time stamp
+		/// </summary>
+		private double lastT;
+
+		/// <summary>
+		/// last frame time delta
+		/// </summary>
+		private double deltaT;
+
 
 		/// <summary>
 		/// Initializes a new instance of the MainWindow class.
@@ -105,6 +120,11 @@ namespace UIT2012.Lab4
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			timer = new Stopwatch();
+			timer.Start();
+			lastT = timer.ElapsedMilliseconds;
+			deltaT = 0;
 		}
 
 		/// <summary>
@@ -194,10 +214,21 @@ namespace UIT2012.Lab4
 		/// <summary>
 		/// Event handler for Kinect sensor's SkeletonFrameReady event
 		/// </summary>
+		/// This is where all the fun happens. Kind of our main loop.
 		/// <param name="sender">object sending the event</param>
 		/// <param name="e">event arguments</param>
 		private void SensorSkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
 		{
+			double currentT = this.timer.ElapsedMilliseconds;
+			this.deltaT = currentT - this.lastT;
+			this.lastT = currentT;
+			
+			if (this.drawDebug)
+				this.refreshRate.Text = "frametime: " + this.deltaT + "ms";
+			else
+				this.refreshRate.Text = "";
+			
+			
 			Skeleton[] skeletons = new Skeleton[0];
 
 			using (SkeletonFrame skeletonFrame = e.OpenSkeletonFrame())
