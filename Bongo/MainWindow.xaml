@@ -41,6 +41,7 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		<BitmapImage x:Key="Bongo" UriSource="Images/bongo.jpg"/>
 	</Window.Resources>
 
 	<Grid Name="layoutGrid" Margin="10 0 10 0">

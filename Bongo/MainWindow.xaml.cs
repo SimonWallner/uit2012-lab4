@@ -113,6 +113,8 @@ namespace UIT2012.Lab4
 		/// </summary>
 		private double deltaT;
 
+		private TouchTarget bongoA;
+
 
 		/// <summary>
 		/// Initializes a new instance of the MainWindow class.
@@ -121,10 +123,12 @@ namespace UIT2012.Lab4
 		{
 			InitializeComponent();
 
-			timer = new Stopwatch();
-			timer.Start();
-			lastT = timer.ElapsedMilliseconds;
-			deltaT = 0;
+			this.timer = new Stopwatch();
+			this.timer.Start();
+			this.lastT = timer.ElapsedMilliseconds;
+			this.deltaT = 0;
+
+			this.bongoA = new TouchTarget(100, 100, 100, 100, (ImageSource)FindResource("Bongo"));
 		}
 
 		/// <summary>
@@ -243,6 +247,9 @@ namespace UIT2012.Lab4
 			{
 			   // Draw a transparent background to set the render size
 				dc.DrawRectangle(Brushes.Transparent, null, new Rect(0.0, 0.0, RenderWidth, RenderHeight));
+
+				this.bongoA.draw(dc);
+
 
 				if (skeletons.Length != 0)
 				{
