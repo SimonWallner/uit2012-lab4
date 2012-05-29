@@ -115,6 +115,10 @@ namespace UIT2012.Lab4
 
 		private TouchTarget bongoA;
 
+		private Sprite head;
+		private Sprite leftHand;
+		private Sprite rightHand;
+
 
 		/// <summary>
 		/// Initializes a new instance of the MainWindow class.
@@ -129,6 +133,9 @@ namespace UIT2012.Lab4
 			this.deltaT = 0;
 
 			this.bongoA = new TouchTarget(100, 100, 100, 100, (ImageSource)FindResource("Bongo"));
+			this.head = new Sprite((ImageSource)FindResource("Head"));
+			this.leftHand = new Sprite((ImageSource)TryFindResource("Fist"));
+			this.rightHand = new Sprite((ImageSource)TryFindResource("Fist"));
 		}
 
 		/// <summary>
@@ -250,9 +257,27 @@ namespace UIT2012.Lab4
 
 				this.bongoA.draw(dc);
 
-
 				if (skeletons.Length != 0)
 				{
+					if (skeletons[0].Joints[JointType.Head].TrackingState == JointTrackingState.Tracked)
+					{
+						Point headPos = this.SkeletonPointToScreen(skeletons[0].Joints[JointType.Head].Position);
+						dc.DrawImage(this.head.Image, this.head.centerRect(headPos, 0.2));
+					}
+
+					if (skeletons[0].Joints[JointType.HandLeft].TrackingState == JointTrackingState.Tracked)
+					{
+						Point headPos = this.SkeletonPointToScreen(skeletons[0].Joints[JointType.HandLeft].Position);
+						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(headPos, 0.5));
+					}
+
+					if (skeletons[0].Joints[JointType.HandRight].TrackingState == JointTrackingState.Tracked)
+					{
+						Point headPos = this.SkeletonPointToScreen(skeletons[0].Joints[JointType.HandRight].Position);
+						dc.DrawImage(this.rightHand.Image, this.rightHand.centerRect(headPos, 0.5));
+					}
+
+
 					foreach (Skeleton skel in skeletons)
 					{
 						if (skel.TrackingState == SkeletonTrackingState.Tracked)

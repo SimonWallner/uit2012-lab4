@@ -14,10 +14,10 @@ namespace UIT2012.Lab4
 	/// All coordinates are in screen coordinates.
 	class TouchTarget
 	{
-		private double X { get; set; }
-		private double Y { get; set; }
-		private double Width { get; set; }
-		private double Height { get; set; }
+		public double X { get; set; }
+		public double Y { get; set; }
+		public double Width { get; set; }
+		public double Height { get; set; }
 
 		private ImageSource image;
 

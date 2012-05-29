@@ -69,6 +69,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Sprite.cs" />
     <Compile Include="TouchTarget.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -108,6 +109,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\bongo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fist.jpg" />
+    <Resource Include="Images\head.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
