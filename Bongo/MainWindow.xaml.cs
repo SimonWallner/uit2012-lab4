@@ -13,6 +13,8 @@ namespace UIT2012.Lab4
 	using System.Windows.Media.Imaging;
 	using Microsoft.Kinect;
 	using System.Diagnostics;
+	using System.Collections.Generic;
+
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
@@ -119,6 +121,8 @@ namespace UIT2012.Lab4
 		private Sprite leftHand;
 		private Sprite rightHand;
 
+		private List<TouchTarget> targets;
+
 
 		/// <summary>
 		/// Initializes a new instance of the MainWindow class.
@@ -132,10 +136,18 @@ namespace UIT2012.Lab4
 			this.lastT = timer.ElapsedMilliseconds;
 			this.deltaT = 0;
 
-			this.bongoA = new TouchTarget(100, 100, 100, 100, (ImageSource)FindResource("Bongo"));
+			this.bongoA = new TouchTarget(300, 350, 100, 100, (ImageSource)FindResource("Bongo"));
 			this.head = new Sprite((ImageSource)FindResource("Head"));
 			this.leftHand = new Sprite((ImageSource)TryFindResource("Fist"));
 			this.rightHand = new Sprite((ImageSource)TryFindResource("Fist"));
+
+			this.targets = new List<TouchTarget>();
+			targets.Add(this.bongoA);
+
+			foreach (TouchTarget target in this.targets)
+			{
+				target.registerCollisionCallback(this.collisionOccured);
+			}
 		}
 
 		/// <summary>
@@ -250,15 +262,20 @@ namespace UIT2012.Lab4
 					skeletonFrame.CopySkeletonDataTo(skeletons);
 				}
 			}
+			
 			using (DrawingContext dc = this.drawingGroup.Open())
 			{
 			   // Draw a transparent background to set the render size
 				dc.DrawRectangle(Brushes.Transparent, null, new Rect(0.0, 0.0, RenderWidth, RenderHeight));
 
-				this.bongoA.draw(dc);
+				foreach (TouchTarget target in this.targets)
+				{
+					target.draw(dc);
+				}
 
 				if (skeletons.Length != 0)
 				{
+					
 					if (skeletons[0].Joints[JointType.Head].TrackingState == JointTrackingState.Tracked)
 					{
 						Point headPos = this.SkeletonPointToScreen(skeletons[0].Joints[JointType.Head].Position);
@@ -267,14 +284,24 @@ namespace UIT2012.Lab4
 
 					if (skeletons[0].Joints[JointType.HandLeft].TrackingState == JointTrackingState.Tracked)
 					{
-						Point headPos = this.SkeletonPointToScreen(skeletons[0].Joints[JointType.HandLeft].Position);
-						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(headPos, 0.5));
+						Point pos = this.SkeletonPointToScreen(skeletons[0].Joints[JointType.HandLeft].Position);
+						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(pos, 0.5));
+						
+						foreach (TouchTarget target in this.targets)
+						{
+							target.collide(pos);
+						}
 					}
 
 					if (skeletons[0].Joints[JointType.HandRight].TrackingState == JointTrackingState.Tracked)
 					{
-						Point headPos = this.SkeletonPointToScreen(skeletons[0].Joints[JointType.HandRight].Position);
-						dc.DrawImage(this.rightHand.Image, this.rightHand.centerRect(headPos, 0.5));
+						Point pos = this.SkeletonPointToScreen(skeletons[0].Joints[JointType.HandRight].Position);
+						dc.DrawImage(this.rightHand.Image, this.rightHand.centerRect(pos, 0.5));
+						
+						foreach (TouchTarget target in this.targets)
+						{
+							target.collide(pos);
+						}
 					}
 
 
@@ -298,6 +325,11 @@ namespace UIT2012.Lab4
 				// prevent drawing outside of our render area
 				this.drawingGroup.ClipGeometry = new RectangleGeometry(new Rect(0.0, 0.0, RenderWidth, RenderHeight));           
 			}
+		}
+
+		private void collisionOccured(TouchTarget.State state, String s)
+		{
+			Console.WriteLine("colission happened: " + s);
 		}
 
 		/// <summary>
