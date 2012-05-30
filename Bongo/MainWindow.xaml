@@ -1,7 +1,7 @@
 ﻿<Window x:Class="UIT2012.Lab4.MainWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Bongo Bongo Bongo" Height="735" Width="770" Loaded="WindowLoaded" Closing="WindowClosing">
+		Title="Bongo Bongo Bongo" Height="835" Width="770" Loaded="WindowLoaded" Closing="WindowClosing">
 
 	<Window.Resources>
 		<SolidColorBrush x:Key="MediumGreyBrush" Color="#ff6e6e6e"/>
@@ -48,28 +48,27 @@
 
 	<Grid Name="layoutGrid" Margin="10 0 10 0">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="44*"/>
+			<RowDefinition Height="726"/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
-		<DockPanel Grid.Row="0" Margin="0 0 0 20">
+		<DockPanel Margin="0,0,0,2">
 			<TextBlock DockPanel.Dock="Right" VerticalAlignment="Bottom" Foreground="{StaticResource MediumGreyBrush}" FontFamily="Segoe UI" FontSize="18">User Interface Technologies Lab #4 - Bongo</TextBlock>
 		</DockPanel>
-		<Viewbox Grid.Row="1" Stretch="Uniform" HorizontalAlignment="Left">
+		<Viewbox Stretch="Uniform" HorizontalAlignment="Left" Margin="0,0,0,178" Grid.Row="1">
 			<Image Name="ColourImage" Width="640" Height="480"/>
 		</Viewbox>
-		<Viewbox Grid.Row="1" Stretch="Uniform" HorizontalAlignment="Left">
+		<Viewbox Stretch="Uniform" HorizontalAlignment="Left" Margin="0,0,0,178" Grid.Row="1">
 			<Image Name="SkeletonImage" Width="640" Height="480"/>
 		</Viewbox>
-		<CheckBox Grid.Row="2" Style="{StaticResource SquareCheckBox}" IsChecked="True" Content="Show Debug Info" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 10 10 10" Name="checkBoxDebug" Checked="CheckBoxDebugChanged" Unchecked="CheckBoxDebugChanged"/>
-		<StatusBar Grid.Row="3" HorizontalAlignment="Stretch" Name="statusBar" VerticalAlignment="Bottom" Background="White" Foreground="{StaticResource MediumGreyBrush}">
+		<CheckBox Grid.Row="1" Style="{StaticResource SquareCheckBox}" IsChecked="False" Content="Show Debug Info" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,702,0,0" Name="checkBoxDebug" Checked="CheckBoxDebugChanged" Unchecked="CheckBoxDebugChanged" />
+		<StatusBar Grid.Row="2" HorizontalAlignment="Stretch" Name="statusBar" VerticalAlignment="Bottom" Background="White" Foreground="{StaticResource MediumGreyBrush}">
 			<StatusBarItem Padding="0 0 0 10">
 				<TextBlock Name="statusBarText" Margin="0">Click 'Draw Debug Infos' to enable debugging output.</TextBlock>
 			</StatusBarItem>
 		</StatusBar>
-		<TextBlock Name="refreshRate" HorizontalAlignment="Right" Margin="0,0,0,10" Grid.Row="3">Refresh Rate</TextBlock>
-		<TextBlock Name="TextInputBox" Margin="12,36,12,461" Grid.Row="1" FontSize="24">Input</TextBlock>
-		<TextBlock Name="Selection" FontSize="48" Margin="178,127,368,389" Grid.Row="1">selection</TextBlock>
+		<TextBlock Name="refreshRate" HorizontalAlignment="Right" Margin="0,0,0,10" Grid.Row="2">Refresh Rate</TextBlock>
+		<TextBox Name="TextInputBox" TextWrapping="Wrap" VerticalAlignment="Bottom" Margin="54,0,0,30" FontSize="24" Grid.Row="1" Height="113">input</TextBox>
+		<TextBlock Name="Selection" FontSize="48" Margin="12,554,534,108" Grid.Row="1">S</TextBlock>
 	</Grid>
 </Window>

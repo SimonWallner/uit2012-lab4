@@ -97,9 +97,9 @@ namespace UIT2012.Lab4
 							CultureInfo.GetCultureInfo("en-us"),
 							FlowDirection.LeftToRight,
 							new Typeface("Verdana"),
-							36,
+							24,
 							System.Windows.Media.Brushes.Cyan),
-								new Point(X + 4, Y + 4));
+								new Point(X, Y + 55));
 		}
 
 		public void drawDebug(DrawingContext dc)

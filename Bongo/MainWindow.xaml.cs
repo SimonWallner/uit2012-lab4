@@ -147,6 +147,7 @@ namespace UIT2012.Lab4
 			this.lastT = timer.ElapsedMilliseconds;
 			this.deltaT = 0;
 
+			/* //round layout
 			this.bongoABC = new TouchTarget(20, 50, 80, 80, (ImageSource)FindResource("Bongo"), "ABC");
 			this.bongoDEF = new TouchTarget(20, 150, 80, 80, (ImageSource)FindResource("Bongo"), "DEF");
 			this.bongoGHI = new TouchTarget(50, 250, 80, 80, (ImageSource)FindResource("Bongo"), "GHI");
@@ -157,8 +158,34 @@ namespace UIT2012.Lab4
 			this.bongoWXYZ = new TouchTarget(480, 150, 80, 80, (ImageSource)FindResource("Bongo"), "WXYZ");
 			this.bongoSpace = new TouchTarget(480, 50, 80, 80, (ImageSource)FindResource("Bongo"), "_");
 			this.bongoBackSpace = new TouchTarget(250, 0, 80, 80, (ImageSource)FindResource("Bongo"), "");
-
+			*/
 			
+			// mostly straight
+			/*
+			this.bongoABC = new TouchTarget(0, 270, 80, 80, (ImageSource)FindResource("Bongo"), "ABC");
+			this.bongoDEF = new TouchTarget(100, 335, 50, 50, (ImageSource)FindResource("Bongo"), "DEF");
+			this.bongoGHI = new TouchTarget(180, 345, 50, 50, (ImageSource)FindResource("Bongo"), "GHI");
+			this.bongoJKL = new TouchTarget(260, 350, 50, 50, (ImageSource)FindResource("Bongo"), "JKL");
+			this.bongoMNO = new TouchTarget(340, 350, 50, 50, (ImageSource)FindResource("Bongo"), "MNO");
+			this.bongoPQRS = new TouchTarget(420, 345, 50, 50, (ImageSource)FindResource("Bongo"), "PQRS");
+			this.bongoTUV = new TouchTarget(500, 335, 50, 50, (ImageSource)FindResource("Bongo"), "TUV");
+			this.bongoWXYZ = new TouchTarget(570, 270, 80, 80, (ImageSource)FindResource("Bongo"), "WXYZ");
+			this.bongoSpace = new TouchTarget(200, -100, 250, 250, (ImageSource)FindResource("Bongo"), "_");
+			this.bongoBackSpace = new TouchTarget(550, 50, 80, 80, (ImageSource)FindResource("Bongo"), "");
+			 */
+
+			this.bongoABC = new TouchTarget(20, 200, 80, 80, (ImageSource)FindResource("Bongo"), "ABC");
+			this.bongoDEF = new TouchTarget(100, 305, 50, 50, (ImageSource)FindResource("Bongo"), "DEF");
+			this.bongoGHI = new TouchTarget(180, 335, 50, 50, (ImageSource)FindResource("Bongo"), "GHI");
+			this.bongoJKL = new TouchTarget(260, 350, 50, 50, (ImageSource)FindResource("Bongo"), "JKL");
+			this.bongoMNO = new TouchTarget(340, 350, 50, 50, (ImageSource)FindResource("Bongo"), "MNO");
+			this.bongoPQRS = new TouchTarget(420, 335, 50, 50, (ImageSource)FindResource("Bongo"), "PQRS");
+			this.bongoTUV = new TouchTarget(500, 305, 50, 50, (ImageSource)FindResource("Bongo"), "TUV");
+			this.bongoWXYZ = new TouchTarget(550, 200, 80, 80, (ImageSource)FindResource("Bongo"), "WXYZ");
+			this.bongoSpace = new TouchTarget(200, -100, 250, 250, (ImageSource)FindResource("Bongo"), "_");
+			this.bongoBackSpace = new TouchTarget(550, 50, 80, 80, (ImageSource)FindResource("Bongo"), "");
+
+
 			this.head = new Sprite((ImageSource)FindResource("Head"));
 			this.leftHand = new Sprite((ImageSource)TryFindResource("Fist"));
 			this.rightHand = new Sprite((ImageSource)TryFindResource("Fist"));
@@ -312,7 +339,7 @@ namespace UIT2012.Lab4
 				{
 					target.draw(dc, deltaT);
 
-					if (this.drawDebug)
+					//if (this.drawDebug)
 						target.drawDebug(dc);
 				}
 
@@ -326,20 +353,32 @@ namespace UIT2012.Lab4
 						dc.DrawImage(this.head.Image, this.head.centerRect(headPos, 0.3));
 					}
 
-					if (skeleton.Joints[JointType.HandLeft].TrackingState == JointTrackingState.Tracked)
+					if (skeleton.Joints[JointType.HandLeft].TrackingState == JointTrackingState.Tracked &&
+						skeleton.Joints[JointType.WristLeft].TrackingState == JointTrackingState.Tracked)
 					{
-						Point pos = this.SkeletonPointToScreen(skeleton.Joints[JointType.HandLeft].Position);
-						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(pos, 0.5));
+						Point handPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.HandLeft].Position);
+						// Point wristPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.WristLeft].Position);
 
-						handPoints.Add(pos);
+						// Point extended = handPos + (handPos - wristPos);
+
+						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(handPos, 0.5));
+
+						dc.DrawEllipse(Brushes.Red, new Pen(Brushes.Red, 1), handPos, 3, 3);
+						handPoints.Add(handPos);
 					}
 
-					if (skeleton.Joints[JointType.HandRight].TrackingState == JointTrackingState.Tracked)
+					if (skeleton.Joints[JointType.HandRight].TrackingState == JointTrackingState.Tracked &&
+						skeleton.Joints[JointType.WristRight].TrackingState == JointTrackingState.Tracked)
 					{
-						Point pos = this.SkeletonPointToScreen(skeleton.Joints[JointType.HandRight].Position);
-						dc.DrawImage(this.rightHand.Image, this.rightHand.centerRect(pos, 0.5));
-						
-						handPoints.Add(pos);
+						Point handPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.HandRight].Position);
+						// Point wristPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.WristRight].Position);
+
+						// Point extended = handPos + (handPos - wristPos);
+
+						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(handPos, 0.5));
+
+						dc.DrawEllipse(Brushes.Red, new Pen(Brushes.Red, 1), handPos, 3, 3);
+						handPoints.Add(handPos);
 					}
 				}
 
