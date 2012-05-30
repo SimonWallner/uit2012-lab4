@@ -290,6 +290,8 @@ namespace UIT2012.Lab4
 						target.drawDebug(dc);
 				}
 
+				List<Point> handPoints = new List<Point>();
+
 				foreach (Skeleton skeleton in skeletons)
 				{
 					if (skeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked)
@@ -302,11 +304,8 @@ namespace UIT2012.Lab4
 					{
 						Point pos = this.SkeletonPointToScreen(skeleton.Joints[JointType.HandLeft].Position);
 						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(pos, 0.5));
-						
-						foreach (TouchTarget target in this.targets)
-						{
-							target.collide(pos);
-						}
+
+						handPoints.Add(pos);
 					}
 
 					if (skeleton.Joints[JointType.HandRight].TrackingState == JointTrackingState.Tracked)
@@ -314,14 +313,18 @@ namespace UIT2012.Lab4
 						Point pos = this.SkeletonPointToScreen(skeleton.Joints[JointType.HandRight].Position);
 						dc.DrawImage(this.rightHand.Image, this.rightHand.centerRect(pos, 0.5));
 						
-						foreach (TouchTarget target in this.targets)
-						{
-							target.collide(pos);
-						}
+						handPoints.Add(pos);
 					}
+				}
 
+				foreach (TouchTarget target in this.targets)
+				{
+					target.collide(handPoints);
+				}
 
-					if (this.drawDebug)
+				if (this.drawDebug)
+				{
+					foreach (Skeleton skeleton in skeletons)
 					{
 						if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
 						{

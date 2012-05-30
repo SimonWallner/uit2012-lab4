@@ -64,7 +64,7 @@ namespace UIT2012.Lab4
 			if (this.currentState == State.input)
 			{
 				this.timer += deltaT;
-				if (this.timer > 1000.0)
+				if (this.timer > 2000.0)
 				{
 					currentState = State.idle;
 					this.addCharacterCallback(this.currentCharSet[this.currentIndex]);

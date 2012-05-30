@@ -98,14 +98,21 @@ namespace UIT2012.Lab4
 			this.callback = cs;
 		}
 
-		public bool collide(double x, double y)
+		public bool collide(List<Point> points)
 		{
-			double dx = this.CX - x;
-			double dy = this.CY - y;
-			double distance = Math.Sqrt(dx * dx + dy * dy);
+			bool collision = false;
 
-			if ((this.lastState == State.outside && distance < this.ROutside) ||
-				(this.lastState == State.inside && distance < this.RInside)) // collide
+			foreach (Point p in points)
+			{ 
+				double dx = this.CX - p.X;
+				double dy = this.CY - p.Y;
+				double distance = Math.Sqrt(dx * dx + dy * dy);
+
+				collision = collision || ((this.lastState == State.outside && distance < this.ROutside) ||
+					(this.lastState == State.inside && distance < this.RInside));
+			}
+
+			if (collision) // something's inside
 			{
 				if (this.callback != null)
 				{
@@ -117,7 +124,7 @@ namespace UIT2012.Lab4
 				this.lastState = State.inside;
 				return true;
 			}
-			else // outside
+			else // all are outside
 			{
 				if (this.lastState == State.inside)
 				{
@@ -128,11 +135,6 @@ namespace UIT2012.Lab4
 				this.lastState = State.outside;
 				return false;
 			}
-		}
-
-		public bool collide (Point p)
-		{
-			return this.collide(p.X, p.Y);
 		}
 	}
 }
