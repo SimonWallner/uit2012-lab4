@@ -62,13 +62,14 @@
 		<Viewbox Grid.Row="1" Stretch="Uniform" HorizontalAlignment="Left">
 			<Image Name="SkeletonImage" Width="640" Height="480"/>
 		</Viewbox>
-		<CheckBox Grid.Row="2" Style="{StaticResource SquareCheckBox}" Content="Show Debug Info" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 10 10 10" Name="checkBoxDebug" Checked="CheckBoxDebugChanged" Unchecked="CheckBoxDebugChanged"/>
+		<CheckBox Grid.Row="2" Style="{StaticResource SquareCheckBox}" IsChecked="True" Content="Show Debug Info" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 10 10 10" Name="checkBoxDebug" Checked="CheckBoxDebugChanged" Unchecked="CheckBoxDebugChanged"/>
 		<StatusBar Grid.Row="3" HorizontalAlignment="Stretch" Name="statusBar" VerticalAlignment="Bottom" Background="White" Foreground="{StaticResource MediumGreyBrush}">
 			<StatusBarItem Padding="0 0 0 10">
 				<TextBlock Name="statusBarText" Margin="0">Click 'Draw Debug Infos' to enable debugging output.</TextBlock>
 			</StatusBarItem>
 		</StatusBar>
 		<TextBlock Name="refreshRate" HorizontalAlignment="Right" Margin="0,0,0,10" Grid.Row="3">Refresh Rate</TextBlock>
-		<TextBlock Name="TextInputBox" Margin="215,72,261,425" Grid.Row="1" FontSize="18">Input</TextBlock>
+		<TextBlock Name="TextInputBox" Margin="12,36,464,461" Grid.Row="1" FontSize="24">Input</TextBlock>
+		<TextBlock Name="Selection" FontSize="48" Margin="12,127,534,389" Grid.Row="1">selection</TextBlock>
 	</Grid>
 </Window>

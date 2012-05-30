@@ -115,7 +115,8 @@ namespace UIT2012.Lab4
 		/// </summary>
 		private double deltaT;
 
-		private TouchTarget bongoA;
+		private TouchTarget bongoABC;
+		private TouchTarget bongoDEF;
 
 		private Sprite head;
 		private Sprite leftHand;
@@ -123,7 +124,7 @@ namespace UIT2012.Lab4
 
 		private List<TouchTarget> targets;
 
-		private Input input;
+		private InputMachine input;
 
 
 		/// <summary>
@@ -138,20 +139,26 @@ namespace UIT2012.Lab4
 			this.lastT = timer.ElapsedMilliseconds;
 			this.deltaT = 0;
 
-			this.bongoA = new TouchTarget(300, 350, 100, 100, (ImageSource)FindResource("Bongo"));
+			this.bongoABC = new TouchTarget(250, 300, 100, 100, (ImageSource)FindResource("Bongo"), "ABC");
+			this.bongoDEF = new TouchTarget(350, 300, 100, 100, (ImageSource)FindResource("Bongo"), "DEF");
 			this.head = new Sprite((ImageSource)FindResource("Head"));
 			this.leftHand = new Sprite((ImageSource)TryFindResource("Fist"));
 			this.rightHand = new Sprite((ImageSource)TryFindResource("Fist"));
 
 			this.targets = new List<TouchTarget>();
-			targets.Add(this.bongoA);
+			targets.Add(this.bongoABC);
+			targets.Add(this.bongoDEF);
 
 			foreach (TouchTarget target in this.targets)
 			{
 				target.registerCollisionCallback(this.collisionOccured);
 			}
 
-			this.input = new Input();
+			this.input = new InputMachine();
+			this.input.registerAddCharacterCallback(this.addCharacter);
+			this.input.registerDeleteCallback(this.deleteCharacter);
+			this.input.registerSelectionCallback(this.selectionChanged);
+
 		}
 
 		/// <summary>
@@ -251,7 +258,6 @@ namespace UIT2012.Lab4
 			this.lastT = currentT;
 
 			this.input.tick(deltaT);
-			this.TextInputBox.Text = this.input.Text;
 
 			
 			if (this.drawDebug)
@@ -279,20 +285,22 @@ namespace UIT2012.Lab4
 				foreach (TouchTarget target in this.targets)
 				{
 					target.draw(dc);
+
+					if (this.drawDebug)
+						target.drawDebug(dc);
 				}
 
-				if (skeletons.Length != 0)
+				foreach (Skeleton skeleton in skeletons)
 				{
-					
-					if (skeletons[0].Joints[JointType.Head].TrackingState == JointTrackingState.Tracked)
+					if (skeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked)
 					{
-						Point headPos = this.SkeletonPointToScreen(skeletons[0].Joints[JointType.Head].Position);
+						Point headPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.Head].Position);
 						dc.DrawImage(this.head.Image, this.head.centerRect(headPos, 0.2));
 					}
 
-					if (skeletons[0].Joints[JointType.HandLeft].TrackingState == JointTrackingState.Tracked)
+					if (skeleton.Joints[JointType.HandLeft].TrackingState == JointTrackingState.Tracked)
 					{
-						Point pos = this.SkeletonPointToScreen(skeletons[0].Joints[JointType.HandLeft].Position);
+						Point pos = this.SkeletonPointToScreen(skeleton.Joints[JointType.HandLeft].Position);
 						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(pos, 0.5));
 						
 						foreach (TouchTarget target in this.targets)
@@ -301,9 +309,9 @@ namespace UIT2012.Lab4
 						}
 					}
 
-					if (skeletons[0].Joints[JointType.HandRight].TrackingState == JointTrackingState.Tracked)
+					if (skeleton.Joints[JointType.HandRight].TrackingState == JointTrackingState.Tracked)
 					{
-						Point pos = this.SkeletonPointToScreen(skeletons[0].Joints[JointType.HandRight].Position);
+						Point pos = this.SkeletonPointToScreen(skeleton.Joints[JointType.HandRight].Position);
 						dc.DrawImage(this.rightHand.Image, this.rightHand.centerRect(pos, 0.5));
 						
 						foreach (TouchTarget target in this.targets)
@@ -313,18 +321,18 @@ namespace UIT2012.Lab4
 					}
 
 
-					foreach (Skeleton skel in skeletons)
+					if (this.drawDebug)
 					{
-						if (skel.TrackingState == SkeletonTrackingState.Tracked)
+						if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
 						{
-							this.DrawBonesAndJoints(skel, dc);
+							this.DrawBonesAndJoints(skeleton, dc);
 						}
-						else if (skel.TrackingState == SkeletonTrackingState.PositionOnly)
+						else if (skeleton.TrackingState == SkeletonTrackingState.PositionOnly)
 						{
 							dc.DrawEllipse(
 								this.centerPointBrush,
 								null,
-								this.SkeletonPointToScreen(skel.Position),
+								this.SkeletonPointToScreen(skeleton.Position),
 								BodyCenterThickness,
 								BodyCenterThickness);
 						}
@@ -339,7 +347,7 @@ namespace UIT2012.Lab4
 		{
 			if (state == TouchTarget.State.enter)
 			{
-				this.input.enter("ABC");
+				this.input.enter(s);
 			}
 		}
 
@@ -481,6 +489,21 @@ namespace UIT2012.Lab4
 		private void CheckBoxDebugChanged(object sender, RoutedEventArgs e)
 		{
 			this.drawDebug = this.checkBoxDebug.IsChecked.GetValueOrDefault();
+		}
+
+		private void selectionChanged(char character)
+		{
+			this.Selection.Text = character.ToString();
+		}
+
+		private void addCharacter(char character)
+		{
+			this.TextInputBox.Text += character;
+		}
+
+		private void deleteCharacter()
+		{
+			this.TextInputBox.Text = this.TextInputBox.Text.Remove(this.TextInputBox.Text.Length - 2);
 		}
 	}
 }
