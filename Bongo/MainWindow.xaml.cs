@@ -127,6 +127,7 @@ namespace UIT2012.Lab4
 		private TouchTarget bongoBackSpace;
 
 		private Sprite head;
+		private Sprite monkey;
 		private Sprite leftHand;
 		private Sprite rightHand;
 
@@ -187,6 +188,7 @@ namespace UIT2012.Lab4
 
 
 			this.head = new Sprite((ImageSource)FindResource("Head"));
+			this.monkey = new Sprite((ImageSource)FindResource("Monkey"));
 			this.leftHand = new Sprite((ImageSource)TryFindResource("Fist"));
 			this.rightHand = new Sprite((ImageSource)TryFindResource("Fist"));
 
@@ -350,7 +352,7 @@ namespace UIT2012.Lab4
 					if (skeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked)
 					{
 						Point headPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.Head].Position);
-						dc.DrawImage(this.head.Image, this.head.centerRect(headPos, 0.3));
+						dc.DrawImage(this.monkey.Image, this.head.centerRect(headPos, 1.0));
 					}
 
 					if (skeleton.Joints[JointType.HandLeft].TrackingState == JointTrackingState.Tracked &&
@@ -385,6 +387,15 @@ namespace UIT2012.Lab4
 				foreach (TouchTarget target in this.targets)
 				{
 					target.collide(handPoints);
+				}
+
+				// draw drums
+				foreach (TouchTarget target in this.targets)
+				{
+					target.draw(dc, deltaT);
+
+					//if (this.drawDebug)
+					target.drawDebug(dc);
 				}
 
 				if (this.drawDebug)
