@@ -113,20 +113,21 @@ namespace UIT2012.Lab4
 						this.callback(State.enter, characters);
 					else
 						this.callback(State.inside, characters);
-
-					this.lastState = State.inside;
-					return true;
 				}
+				this.lastState = State.inside;
+				return true;
 			}
-
-			if (this.lastState == State.inside)
+			else // outside
 			{
-				if (this.callback != null)
-					this.callback(State.exit, characters);
-			}
+				if (this.lastState == State.inside)
+				{
+					if (this.callback != null)
+						this.callback(State.exit, characters);
+				}
 
-			this.lastState = State.outside;
-			return false;
+				this.lastState = State.outside;
+				return false;
+			}
 		}
 
 		public bool collide (Point p)

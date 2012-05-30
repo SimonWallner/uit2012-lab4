@@ -83,7 +83,7 @@ namespace UIT2012.Lab4
 
 				this.selectionCallback(this.currentCharSet[this.currentIndex]);
 			}
-			else
+			else // state == input
 			{
 				if (this.currentCharSet.Equals(charSet)) // same button hit again
 				{
