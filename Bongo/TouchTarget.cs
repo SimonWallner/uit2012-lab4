@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Media;
 using System.Windows;
+using System.Globalization;
 
 namespace UIT2012.Lab4
 {
@@ -53,6 +54,7 @@ namespace UIT2012.Lab4
 		private readonly Brush rOutsideBrush = new SolidColorBrush(Color.FromArgb(192, 192, 192, 192));
 		private readonly Pen pen = new Pen(Brushes.Black, 1);
 
+		private double timeInside;
 
 		/// <summary>
 		/// Delegate callback for collisions
@@ -78,11 +80,26 @@ namespace UIT2012.Lab4
 			this.lastState = State.outside;
 
 			this.characters = characters;
+
+			this.timeInside = 0.0;
 		}
 	
-		public void draw(DrawingContext dc)
+		public void draw(DrawingContext dc, double deltaT)
 		{
-			dc.DrawImage(image, new Rect(X, Y, Width, Height));
+			double scale = 1.0;
+			if (this.lastState == State.inside)
+			{
+				timeInside += deltaT;
+				scale = 1 - (1 / (timeInside/100.0 + 1));
+			}
+			dc.DrawImage(image, new Rect(X, Y, Width * scale, Height * scale));
+			dc.DrawText(new FormattedText(characters, 
+							CultureInfo.GetCultureInfo("en-us"),
+							FlowDirection.LeftToRight,
+							new Typeface("Verdana"),
+							36,
+							System.Windows.Media.Brushes.Cyan),
+								new Point(X + 4, Y + 4));
 		}
 
 		public void drawDebug(DrawingContext dc)
@@ -117,7 +134,10 @@ namespace UIT2012.Lab4
 				if (this.callback != null)
 				{
 					if (this.lastState == State.outside)
+					{
+						this.timeInside = 0.0;
 						this.callback(State.enter, characters);
+					}
 					else
 						this.callback(State.inside, characters);
 				}

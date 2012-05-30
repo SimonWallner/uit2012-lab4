@@ -117,6 +117,14 @@ namespace UIT2012.Lab4
 
 		private TouchTarget bongoABC;
 		private TouchTarget bongoDEF;
+		private TouchTarget bongoGHI;
+		private TouchTarget bongoJKL;
+		private TouchTarget bongoMNO;
+		private TouchTarget bongoPQRS;
+		private TouchTarget bongoTUV;
+		private TouchTarget bongoWXYZ;
+		private TouchTarget bongoSpace;
+		private TouchTarget bongoBackSpace;
 
 		private Sprite head;
 		private Sprite leftHand;
@@ -139,8 +147,18 @@ namespace UIT2012.Lab4
 			this.lastT = timer.ElapsedMilliseconds;
 			this.deltaT = 0;
 
-			this.bongoABC = new TouchTarget(250, 300, 100, 100, (ImageSource)FindResource("Bongo"), "ABC");
-			this.bongoDEF = new TouchTarget(350, 300, 100, 100, (ImageSource)FindResource("Bongo"), "DEF");
+			this.bongoABC = new TouchTarget(20, 50, 80, 80, (ImageSource)FindResource("Bongo"), "ABC");
+			this.bongoDEF = new TouchTarget(20, 150, 80, 80, (ImageSource)FindResource("Bongo"), "DEF");
+			this.bongoGHI = new TouchTarget(50, 250, 80, 80, (ImageSource)FindResource("Bongo"), "GHI");
+			this.bongoJKL = new TouchTarget(150, 300, 80, 80, (ImageSource)FindResource("Bongo"), "JKL");
+			this.bongoMNO = new TouchTarget(250, 300, 80, 80, (ImageSource)FindResource("Bongo"), "MNO");
+			this.bongoPQRS = new TouchTarget(350, 300, 80, 80, (ImageSource)FindResource("Bongo"), "PQRS");
+			this.bongoTUV = new TouchTarget(450, 250, 80, 80, (ImageSource)FindResource("Bongo"), "TUV");
+			this.bongoWXYZ = new TouchTarget(480, 150, 80, 80, (ImageSource)FindResource("Bongo"), "WXYZ");
+			this.bongoSpace = new TouchTarget(480, 50, 80, 80, (ImageSource)FindResource("Bongo"), "_");
+			this.bongoBackSpace = new TouchTarget(250, 0, 80, 80, (ImageSource)FindResource("Bongo"), "");
+
+			
 			this.head = new Sprite((ImageSource)FindResource("Head"));
 			this.leftHand = new Sprite((ImageSource)TryFindResource("Fist"));
 			this.rightHand = new Sprite((ImageSource)TryFindResource("Fist"));
@@ -148,7 +166,15 @@ namespace UIT2012.Lab4
 			this.targets = new List<TouchTarget>();
 			targets.Add(this.bongoABC);
 			targets.Add(this.bongoDEF);
-
+			targets.Add(this.bongoGHI);
+			targets.Add(this.bongoJKL);
+			targets.Add(this.bongoMNO);
+			targets.Add(this.bongoPQRS);
+			targets.Add(this.bongoTUV);
+			targets.Add(this.bongoWXYZ);
+			targets.Add(this.bongoSpace);
+			targets.Add(this.bongoBackSpace);
+			
 			foreach (TouchTarget target in this.targets)
 			{
 				target.registerCollisionCallback(this.collisionOccured);
@@ -284,7 +310,7 @@ namespace UIT2012.Lab4
 
 				foreach (TouchTarget target in this.targets)
 				{
-					target.draw(dc);
+					target.draw(dc, deltaT);
 
 					if (this.drawDebug)
 						target.drawDebug(dc);
@@ -297,7 +323,7 @@ namespace UIT2012.Lab4
 					if (skeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked)
 					{
 						Point headPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.Head].Position);
-						dc.DrawImage(this.head.Image, this.head.centerRect(headPos, 0.2));
+						dc.DrawImage(this.head.Image, this.head.centerRect(headPos, 0.3));
 					}
 
 					if (skeleton.Joints[JointType.HandLeft].TrackingState == JointTrackingState.Tracked)
@@ -506,7 +532,9 @@ namespace UIT2012.Lab4
 
 		private void deleteCharacter()
 		{
-			this.TextInputBox.Text = this.TextInputBox.Text.Remove(this.TextInputBox.Text.Length - 2);
+			String text = this.TextInputBox.Text;
+			if (text.Length > 0)
+				this.TextInputBox.Text = text.Remove(text.Length - 1);
 		}
 	}
 }

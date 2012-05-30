@@ -70,6 +70,6 @@
 		</StatusBar>
 		<TextBlock Name="refreshRate" HorizontalAlignment="Right" Margin="0,0,0,10" Grid.Row="3">Refresh Rate</TextBlock>
 		<TextBlock Name="TextInputBox" Margin="12,36,12,461" Grid.Row="1" FontSize="24">Input</TextBlock>
-		<TextBlock Name="Selection" FontSize="48" Margin="12,127,534,389" Grid.Row="1">selection</TextBlock>
+		<TextBlock Name="Selection" FontSize="48" Margin="178,127,368,389" Grid.Row="1">selection</TextBlock>
 	</Grid>
 </Window>

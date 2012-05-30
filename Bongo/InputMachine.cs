@@ -68,13 +68,35 @@ namespace UIT2012.Lab4
 				{
 					currentState = State.idle;
 					this.addCharacterCallback(this.currentCharSet[this.currentIndex]);
+					this.selectionCallback('_');
 				}
 			}
 		}
 
 		public void enter(String charSet)
 		{
-			if (this.currentState == State.idle)
+			if (charSet.Length == 0 && this.currentState == State.idle)
+			{
+				this.deleteCallback();
+			}
+			else if (charSet.Length == 0 && this.currentState == State.input)
+			{
+				this.selectionCallback('_');
+				this.currentState = State.idle;
+			}
+			else if (charSet.Length == 1 && this.currentState == State.idle)
+			{
+				this.addCharacterCallback(charSet[0]);
+			}
+			else if (charSet.Length == 1 && this.currentState == State.input)
+			{
+				this.addCharacterCallback(this.currentCharSet[this.currentIndex]);
+
+				this.addCharacterCallback(charSet[0]);
+				this.selectionCallback('_');
+				this.currentState = State.idle;
+			}
+			else if (this.currentState == State.idle)
 			{
 				this.currentState = State.input;
 				this.currentCharSet = charSet;
