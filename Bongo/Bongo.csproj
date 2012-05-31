@@ -124,6 +124,23 @@
   <ItemGroup>
     <Resource Include="Images\arm.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\background.png" />
+    <Resource Include="Images\bongoABC.png" />
+    <Resource Include="Images\bongoDEF.png" />
+    <Resource Include="Images\bongoGHI.png" />
+    <Resource Include="Images\bongoJKL.png" />
+    <Resource Include="Images\bongoMNO.png" />
+    <Resource Include="Images\bongoPQRS.png" />
+    <Resource Include="Images\bongoSpace.png" />
+    <Resource Include="Images\bongoTUV.png" />
+    <Resource Include="Images\bongoWXYZ.png" />
+    <Resource Include="Images\bongoXXX.png" />
+    <Resource Include="Images\limb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\hand.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

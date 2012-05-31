@@ -131,7 +131,9 @@ namespace UIT2012.Lab4
 		private Sprite monkey;
 		private Sprite leftHand;
 		private Sprite rightHand;
-		private Sprite arm;
+		private Sprite limb;
+		private Sprite torso;
+		private ImageSource background;
 
 		private List<TouchTarget> targets;
 
@@ -179,24 +181,44 @@ namespace UIT2012.Lab4
 			this.bongoBackSpace = new TouchTarget(550, 50, 80, 80, (ImageSource)FindResource("Bongo"), "");
 			 */
 
-			this.bongoABC = new TouchTarget(20, 200, 80, 80, (ImageSource)FindResource("Bongo"), "ABC");
-			this.bongoDEF = new TouchTarget(100, 305, 50, 50, (ImageSource)FindResource("Bongo"), "DEF");
-			this.bongoGHI = new TouchTarget(180, 335, 50, 50, (ImageSource)FindResource("Bongo"), "GHI");
-			this.bongoJKL = new TouchTarget(260, 350, 50, 50, (ImageSource)FindResource("Bongo"), "JKL");
-			this.bongoMNO = new TouchTarget(340, 350, 50, 50, (ImageSource)FindResource("Bongo"), "MNO");
-			this.bongoPQRS = new TouchTarget(420, 335, 50, 50, (ImageSource)FindResource("Bongo"), "PQRS");
-			this.bongoTUV = new TouchTarget(500, 305, 50, 50, (ImageSource)FindResource("Bongo"), "TUV");
-			this.bongoWXYZ = new TouchTarget(550, 200, 80, 80, (ImageSource)FindResource("Bongo"), "WXYZ");
-			this.bongoSpace = new TouchTarget(20, 50, 80, 80, (ImageSource)FindResource("Bongo"), "_");
-			this.bongoBackSpace = new TouchTarget(550, 50, 80, 80, (ImageSource)FindResource("Bongo"), "");
+			this.bongoABC = new TouchTarget(0, 268, 94, 91, (ImageSource)FindResource("BongoABC"), "ABC", 70, -30);
+			this.bongoDEF = new TouchTarget(65, 325, 90, 102, (ImageSource)FindResource("BongoDEF"), "DEF", 60, -50);
+			this.bongoGHI = new TouchTarget(155, 352, 82, 98, (ImageSource)FindResource("BongoGHI"), "GHI", 35, -45);
+			this.bongoJKL = new TouchTarget(242, 362, 76, 90, (ImageSource)FindResource("BongoJKL"), "JKL", 30, -50);
+			this.bongoMNO = new TouchTarget(322, 359, 78, 93, (ImageSource)FindResource("BongoMNO"), "MNO", 27, -50);
+			this.bongoPQRS = new TouchTarget(402, 349, 80, 95, (ImageSource)FindResource("BongoPQRS"), "PQRS", 25, -50);
+			this.bongoTUV = new TouchTarget(478, 316, 92, 98, (ImageSource)FindResource("BongoTUV"), "TUV", 20, -50);
+			this.bongoWXYZ = new TouchTarget(536, 259, 101, 95, (ImageSource)FindResource("BongoWXYZ"), "WXYZ", -15, -25);
+			this.bongoSpace = new TouchTarget(4, 6, 129, 123, (ImageSource)FindResource("BongoSpace"), "_", 0, 0);
+			this.bongoBackSpace = new TouchTarget(498, 7, 131, 117, (ImageSource)FindResource("BongoBackspace"), "", 0, 0);
 
+			// offset hitboxes a little
+			this.bongoABC.CX -= 3;
+			this.bongoABC.CY -= 4;
+			this.bongoDEF.CX += 5;
+			this.bongoDEF.CY -= 6;
+			this.bongoGHI.CX += 4;
+			this.bongoGHI.CY -= 8;
+			this.bongoJKL.CX += 1;
+			this.bongoJKL.CY -= 10;
+			this.bongoMNO.CX += 1;
+			this.bongoMNO.CY -= 10;
+			this.bongoPQRS.CX -= 1;
+			this.bongoPQRS.CY -= 8;
+			this.bongoTUV.CX -= 3;
+			this.bongoTUV.CY -= 3;
 
 			this.head = new Sprite((ImageSource)FindResource("Head"));
 			this.monkey = new Sprite((ImageSource)FindResource("Monkey"));
 			this.leftHand = new Sprite((ImageSource)TryFindResource("Fist"));
 			this.rightHand = new Sprite((ImageSource)TryFindResource("Fist"));
-			this.arm = new Sprite((ImageSource)TryFindResource("Arm"), 20, 100);
-			
+			this.limb = new Sprite((ImageSource)TryFindResource("Limb"), 20, 100);
+			this.limb.Width = 80;
+
+			this.torso = new Sprite((ImageSource)TryFindResource("Limb"));
+			this.torso.Width = 140;
+		
+			this.background = (ImageSource)TryFindResource("Background");
 
 
 			this.targets = new List<TouchTarget>();
@@ -353,10 +375,13 @@ namespace UIT2012.Lab4
 				{
 					// more limbs
 					// legs
-					this.drawLimb(dc, skeleton, JointType.HipLeft, JointType.KneeLeft, this.arm);
-					this.drawLimb(dc, skeleton, JointType.KneeLeft, JointType.AnkleLeft, this.arm);
-					this.drawLimb(dc, skeleton, JointType.HipRight, JointType.KneeRight, this.arm);
-					this.drawLimb(dc, skeleton, JointType.KneeRight, JointType.AnkleRight, this.arm);
+					this.drawLimb(dc, skeleton, JointType.HipLeft, JointType.KneeLeft, this.limb);
+					this.drawLimb(dc, skeleton, JointType.KneeLeft, JointType.AnkleLeft, this.limb);
+					this.drawLimb(dc, skeleton, JointType.HipRight, JointType.KneeRight, this.limb);
+					this.drawLimb(dc, skeleton, JointType.KneeRight, JointType.AnkleRight, this.limb);
+
+					// torso
+					this.drawLimb(dc, skeleton, JointType.ShoulderCenter, JointType.HipCenter, this.torso);
 
 					if (skeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked)
 					{
@@ -364,6 +389,8 @@ namespace UIT2012.Lab4
 						dc.DrawImage(this.monkey.Image, this.head.centerRect(headPos, 1.0));
 					}
 				}
+
+				dc.DrawImage(this.background, new Rect(0, 0, 640, 480));
 
 				// draw drums
 				foreach (TouchTarget target in this.targets)
@@ -379,10 +406,10 @@ namespace UIT2012.Lab4
 				{
 					// draw linbs
 					// arms
-					this.drawLimb(dc, skeleton, JointType.ShoulderLeft, JointType.ElbowLeft, this.arm);
-					this.drawLimb(dc, skeleton, JointType.ElbowLeft, JointType.HandLeft, this.arm);
-					this.drawLimb(dc, skeleton, JointType.ShoulderRight, JointType.ElbowRight, this.arm);
-					this.drawLimb(dc, skeleton, JointType.ElbowRight, JointType.HandRight, this.arm);
+					this.drawLimb(dc, skeleton, JointType.ShoulderLeft, JointType.ElbowLeft, this.limb);
+					this.drawLimb(dc, skeleton, JointType.ElbowLeft, JointType.HandLeft, this.limb);
+					this.drawLimb(dc, skeleton, JointType.ShoulderRight, JointType.ElbowRight, this.limb);
+					this.drawLimb(dc, skeleton, JointType.ElbowRight, JointType.HandRight, this.limb);
 
 
 					if (skeleton.Joints[JointType.HandLeft].TrackingState == JointTrackingState.Tracked &&
@@ -392,7 +419,7 @@ namespace UIT2012.Lab4
 						// Point wristPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.WristLeft].Position);
 						// Point extended = handPos + (handPos - wristPos);
 
-						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(handPos, 0.5));
+						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(handPos, 1.7));
 
 						// dc.DrawEllipse(Brushes.Red, new Pen(Brushes.Red, 1), handPos, 3, 3);
 						handPoints.Add(handPos);
@@ -405,7 +432,7 @@ namespace UIT2012.Lab4
 						// Point wristPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.WristRight].Position);
 						// Point extended = handPos + (handPos - wristPos);
 
-						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(handPos, 0.5));
+						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(handPos, 1.7));
 
 						// dc.DrawEllipse(Brushes.Red, new Pen(Brushes.Red, 1), handPos, 3, 3);
 						handPoints.Add(handPos);
@@ -597,7 +624,6 @@ namespace UIT2012.Lab4
 
 		private void selectionChanged(char character)
 		{
-			this.Selection.Text = character.ToString();
 			foreach (TouchTarget target in targets)
 			{
 				target.currentSelection(character);

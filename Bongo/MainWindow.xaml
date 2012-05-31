@@ -43,9 +43,23 @@
 		</Style>
 		<BitmapImage x:Key="Bongo" UriSource="Images/bongo.jpg"/>
 		<BitmapImage x:Key="Head" UriSource="Images/head.jpg"/>
-		<BitmapImage x:Key="Fist" UriSource="Images/fist.jpg"/>
+		<BitmapImage x:Key="Fist" UriSource="Images/hand.png"/>
 		<BitmapImage x:Key="Monkey" UriSource="Images/monkey.png"/>
-		<BitmapImage x:Key="Arm" UriSource="Images/arm.png"/>
+		
+		<BitmapImage x:Key="Limb" UriSource="Images/limb.png"/>
+		<BitmapImage x:Key="BongoSpace" UriSource="Images/bongoSpace.png"/>
+		<BitmapImage x:Key="BongoABC" UriSource="Images/bongoABC.png"/>
+		<BitmapImage x:Key="BongoDEF" UriSource="Images/bongoDEF.png"/>
+		<BitmapImage x:Key="BongoGHI" UriSource="Images/bongoGHI.png"/>
+		<BitmapImage x:Key="BongoJKL" UriSource="Images/bongoJKL.png"/>
+		<BitmapImage x:Key="BongoMNO" UriSource="Images/bongoMNO.png"/>
+		<BitmapImage x:Key="BongoPQRS" UriSource="Images/bongoPQRS.png"/>
+		<BitmapImage x:Key="BongoTUV" UriSource="Images/bongoTUV.png"/>
+		<BitmapImage x:Key="BongoWXYZ" UriSource="Images/bongoWXYZ.png"/>
+		<BitmapImage x:Key="BongoBackspace" UriSource="Images/BongoXXX.png"/>
+		<BitmapImage x:Key="Background" UriSource="Images/background.png"/>
+		
+		
 	</Window.Resources>
 
 	<Grid Name="layoutGrid" Margin="10 0 10 0">
@@ -71,6 +85,5 @@
 		</StatusBar>
 		<TextBlock Name="refreshRate" HorizontalAlignment="Right" Margin="0,0,0,10" Grid.Row="2">Refresh Rate</TextBlock>
 		<TextBox Name="TextInputBox" TextWrapping="Wrap" VerticalAlignment="Bottom" Margin="54,0,0,30" FontSize="24" Grid.Row="1" Height="113">input</TextBox>
-		<TextBlock Name="Selection" FontSize="48" Margin="12,554,534,108" Grid.Row="1">S</TextBlock>
 	</Grid>
 </Window>

@@ -20,21 +20,10 @@ namespace UIT2012.Lab4
 		public double Width { get; set; }
 		public double Height { get; set; }
 
-		public double CX
-		{
-			get
-			{
-				return this.X + this.Width / 2.0;
-			}
-		}
+		public double CX {get; set;}
+		
+		public double CY { get; set; }
 
-		public double CY
-		{
-			get
-			{
-				return this.Y + this.Height / 2.0;
-			}
-		}
 
 		/// <summary>
 		/// Radious that is used for colission detection if state was outside.
@@ -58,6 +47,9 @@ namespace UIT2012.Lab4
 		private double selectionTime;
 		private char selection;
 
+		private int dx;
+		private int dy;
+
 		/// <summary>
 		/// Delegate callback for collisions
 		/// </summary>
@@ -67,7 +59,7 @@ namespace UIT2012.Lab4
 		public enum State {enter, inside, exit, outside};
 
 		public TouchTarget(double x, double y, double width, double height,
-			ImageSource image, String characters)
+			ImageSource image, String characters, int dx, int dy)
 		{
 			X = x;
 			Y = y;
@@ -75,7 +67,7 @@ namespace UIT2012.Lab4
 			Height = height;
 			this.image = image;
 
-			ROutside = width / 2.0;
+			ROutside = (width / 2.0) * 0.9;
 			RInside = ROutside * 1.2;
 
 			this.callback = null;
@@ -86,6 +78,12 @@ namespace UIT2012.Lab4
 			this.timeInside = 0.0;
 			this.selection = ' ';
 			this.selectionTime = 0.0;
+
+			this.dx = dx;
+			this.dy = dy;
+
+			this.CX = this.X + this.Width / 2.0;
+			this.CY = this.Y + this.Height / 2.0;
 		}
 	
 		public void draw(DrawingContext dc, double deltaT)
@@ -99,13 +97,15 @@ namespace UIT2012.Lab4
 
 			
 			dc.DrawImage(image, new Rect(X, Y, Width * scale, Height * scale));
+			
+			/*
 			dc.DrawText(new FormattedText(characters, 
 							CultureInfo.GetCultureInfo("en-us"),
 							FlowDirection.LeftToRight,
 							new Typeface("Impact"),
 							24,
 							Brushes.Red),
-								new Point(X, Y + 55));
+								new Point(X, Y + 55)); */
 		}
 
 		public void drawSelection(DrawingContext dc, double deltaT)
@@ -120,7 +120,7 @@ namespace UIT2012.Lab4
 							new Typeface("Impact"),
 							48,
 							new SolidColorBrush(Color.FromArgb((byte)(Math.Max(1 - Math.Pow(selectionTime / 2000, 2), 0) * 255), 255, 0, 0))),
-								new Point(X + 10, (Y - 60) + (selectionTime / 2000) * 40 ));
+								new Point(X + this.dx, (Y + this.dy) + (selectionTime / 2000) * 40 ));
 			}
 		}
 
