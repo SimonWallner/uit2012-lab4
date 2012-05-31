@@ -55,6 +55,7 @@ namespace UIT2012.Lab4
 		private readonly Pen pen = new Pen(Brushes.Black, 1);
 
 		private double timeInside;
+		private double selectionTime;
 		private char selection;
 
 		/// <summary>
@@ -83,6 +84,8 @@ namespace UIT2012.Lab4
 			this.characters = characters;
 
 			this.timeInside = 0.0;
+			this.selection = ' ';
+			this.selectionTime = 0.0;
 		}
 	
 		public void draw(DrawingContext dc, double deltaT)
@@ -99,10 +102,26 @@ namespace UIT2012.Lab4
 			dc.DrawText(new FormattedText(characters, 
 							CultureInfo.GetCultureInfo("en-us"),
 							FlowDirection.LeftToRight,
-							new Typeface("Verdana"),
+							new Typeface("Impact"),
 							24,
-							new SolidColorBrush(Color.FromArgb((byte)(scale * 255), 0, 0, 255))) ,
+							Brushes.Red),
 								new Point(X, Y + 55));
+		}
+
+		public void drawSelection(DrawingContext dc, double deltaT)
+		{
+			this.selectionTime += deltaT;
+
+			if (characters.Contains(selection))
+			{
+				dc.DrawText(new FormattedText(selection.ToString(),
+							CultureInfo.GetCultureInfo("en-us"),
+							FlowDirection.LeftToRight,
+							new Typeface("Impact"),
+							48,
+							new SolidColorBrush(Color.FromArgb((byte)(Math.Max(1 - Math.Pow(selectionTime / 2000, 2), 0) * 255), 255, 0, 0))),
+								new Point(X + 10, (Y - 60) + (selectionTime / 2000) * 40 ));
+			}
 		}
 
 		public void drawDebug(DrawingContext dc)
@@ -166,9 +185,10 @@ namespace UIT2012.Lab4
 		/// This function is to be called by the selectionChanged callback in the
 		/// main program.
 		/// <param name="selection"></param>
-		void currentSelection(char selection)
+		public void currentSelection(char selection)
 		{
 			this.selection = selection;
+			this.selectionTime = 0.0;
 		}
 	}
 }

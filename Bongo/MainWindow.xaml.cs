@@ -219,7 +219,6 @@ namespace UIT2012.Lab4
 
 			this.player = new SoundPlayer();
 			this.player.Stream = Properties.Resources.boing;
-			this.player.Play();
 
 		}
 
@@ -396,6 +395,7 @@ namespace UIT2012.Lab4
 				foreach (TouchTarget target in this.targets)
 				{
 					target.collide(handPoints);
+					target.drawSelection(dc, this.deltaT);
 				}
 
 				if (this.drawDebug)
@@ -578,6 +578,10 @@ namespace UIT2012.Lab4
 		private void selectionChanged(char character)
 		{
 			this.Selection.Text = character.ToString();
+			foreach (TouchTarget target in targets)
+			{
+				target.currentSelection(character);
+			}
 		}
 
 		private void addCharacter(char character)
