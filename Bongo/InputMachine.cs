@@ -68,7 +68,7 @@ namespace UIT2012.Lab4
 				{
 					currentState = State.idle;
 					this.addCharacterCallback(this.currentCharSet[this.currentIndex]);
-					this.selectionCallback('_');
+					this.selectionCallback(' ');
 				}
 			}
 		}
@@ -81,7 +81,7 @@ namespace UIT2012.Lab4
 			}
 			else if (charSet.Length == 0 && this.currentState == State.input)
 			{
-				this.selectionCallback('_');
+				this.selectionCallback(' ');
 				this.currentState = State.idle;
 			}
 			else if (charSet.Length == 1 && this.currentState == State.idle)
@@ -93,7 +93,7 @@ namespace UIT2012.Lab4
 				this.addCharacterCallback(this.currentCharSet[this.currentIndex]);
 
 				this.addCharacterCallback(charSet[0]);
-				this.selectionCallback('_');
+				this.selectionCallback(' ');
 				this.currentState = State.idle;
 			}
 			else if (this.currentState == State.idle)

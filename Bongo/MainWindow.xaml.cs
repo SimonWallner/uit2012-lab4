@@ -131,6 +131,7 @@ namespace UIT2012.Lab4
 		private Sprite monkey;
 		private Sprite leftHand;
 		private Sprite rightHand;
+		private Sprite arm;
 
 		private List<TouchTarget> targets;
 
@@ -186,7 +187,7 @@ namespace UIT2012.Lab4
 			this.bongoPQRS = new TouchTarget(420, 335, 50, 50, (ImageSource)FindResource("Bongo"), "PQRS");
 			this.bongoTUV = new TouchTarget(500, 305, 50, 50, (ImageSource)FindResource("Bongo"), "TUV");
 			this.bongoWXYZ = new TouchTarget(550, 200, 80, 80, (ImageSource)FindResource("Bongo"), "WXYZ");
-			this.bongoSpace = new TouchTarget(200, -100, 250, 250, (ImageSource)FindResource("Bongo"), "_");
+			this.bongoSpace = new TouchTarget(20, 50, 80, 80, (ImageSource)FindResource("Bongo"), "_");
 			this.bongoBackSpace = new TouchTarget(550, 50, 80, 80, (ImageSource)FindResource("Bongo"), "");
 
 
@@ -194,6 +195,9 @@ namespace UIT2012.Lab4
 			this.monkey = new Sprite((ImageSource)FindResource("Monkey"));
 			this.leftHand = new Sprite((ImageSource)TryFindResource("Fist"));
 			this.rightHand = new Sprite((ImageSource)TryFindResource("Fist"));
+			this.arm = new Sprite((ImageSource)TryFindResource("Arm"), 20, 100);
+			
+
 
 			this.targets = new List<TouchTarget>();
 			targets.Add(this.bongoABC);
@@ -347,6 +351,13 @@ namespace UIT2012.Lab4
 
 				foreach (Skeleton skeleton in skeletons)
 				{
+					// more limbs
+					// legs
+					this.drawLimb(dc, skeleton, JointType.HipLeft, JointType.KneeLeft, this.arm);
+					this.drawLimb(dc, skeleton, JointType.KneeLeft, JointType.AnkleLeft, this.arm);
+					this.drawLimb(dc, skeleton, JointType.HipRight, JointType.KneeRight, this.arm);
+					this.drawLimb(dc, skeleton, JointType.KneeRight, JointType.AnkleRight, this.arm);
+
 					if (skeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked)
 					{
 						Point headPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.Head].Position);
@@ -363,8 +374,17 @@ namespace UIT2012.Lab4
 						target.drawDebug(dc);
 				}
 
+				
 				foreach (Skeleton skeleton in skeletons)
 				{
+					// draw linbs
+					// arms
+					this.drawLimb(dc, skeleton, JointType.ShoulderLeft, JointType.ElbowLeft, this.arm);
+					this.drawLimb(dc, skeleton, JointType.ElbowLeft, JointType.HandLeft, this.arm);
+					this.drawLimb(dc, skeleton, JointType.ShoulderRight, JointType.ElbowRight, this.arm);
+					this.drawLimb(dc, skeleton, JointType.ElbowRight, JointType.HandRight, this.arm);
+
+
 					if (skeleton.Joints[JointType.HandLeft].TrackingState == JointTrackingState.Tracked &&
 						skeleton.Joints[JointType.WristLeft].TrackingState == JointTrackingState.Tracked)
 					{
@@ -594,6 +614,22 @@ namespace UIT2012.Lab4
 			String text = this.TextInputBox.Text;
 			if (text.Length > 0)
 				this.TextInputBox.Text = text.Remove(text.Length - 1);
+		}
+
+		private void drawLimb(DrawingContext dc, Skeleton skeleton, JointType start, JointType end, Sprite sprite)
+		{
+			Joint jointStart = skeleton.Joints[start];
+			Joint jointEnd = skeleton.Joints[end];
+
+			// Don't draw if both points are inferred
+			if ((jointStart.TrackingState == JointTrackingState.Tracked || jointStart.TrackingState == JointTrackingState.Inferred) &&
+				jointEnd.TrackingState == JointTrackingState.Tracked || jointEnd.TrackingState == JointTrackingState.Inferred)
+			{
+				Point startPos = this.SkeletonPointToScreen(jointStart.Position);
+				Point endPos = this.SkeletonPointToScreen(jointEnd.Position);
+
+				sprite.drawLimb(dc, startPos, endPos, 10);
+			}
 		}
 	}
 }

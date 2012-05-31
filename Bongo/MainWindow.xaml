@@ -45,6 +45,7 @@
 		<BitmapImage x:Key="Head" UriSource="Images/head.jpg"/>
 		<BitmapImage x:Key="Fist" UriSource="Images/fist.jpg"/>
 		<BitmapImage x:Key="Monkey" UriSource="Images/monkey.png"/>
+		<BitmapImage x:Key="Arm" UriSource="Images/arm.png"/>
 	</Window.Resources>
 
 	<Grid Name="layoutGrid" Margin="10 0 10 0">
