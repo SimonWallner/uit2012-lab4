@@ -55,6 +55,7 @@ namespace UIT2012.Lab4
 		private readonly Pen pen = new Pen(Brushes.Black, 1);
 
 		private double timeInside;
+		private char selection;
 
 		/// <summary>
 		/// Delegate callback for collisions
@@ -92,13 +93,15 @@ namespace UIT2012.Lab4
 				timeInside += deltaT;
 				scale = 1 - (1 / (timeInside/100.0 + 1));
 			}
+
+			
 			dc.DrawImage(image, new Rect(X, Y, Width * scale, Height * scale));
 			dc.DrawText(new FormattedText(characters, 
 							CultureInfo.GetCultureInfo("en-us"),
 							FlowDirection.LeftToRight,
 							new Typeface("Verdana"),
 							24,
-							System.Windows.Media.Brushes.Cyan),
+							new SolidColorBrush(Color.FromArgb((byte)(scale * 255), 0, 0, 255))) ,
 								new Point(X, Y + 55));
 		}
 
@@ -155,6 +158,17 @@ namespace UIT2012.Lab4
 				this.lastState = State.outside;
 				return false;
 			}
+		}
+
+		/// <summary>
+		/// Set the current selection from the input machine
+		/// </summary>
+		/// This function is to be called by the selectionChanged callback in the
+		/// main program.
+		/// <param name="selection"></param>
+		void currentSelection(char selection)
+		{
+			this.selection = selection;
 		}
 	}
 }

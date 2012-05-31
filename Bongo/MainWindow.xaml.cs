@@ -14,6 +14,7 @@ namespace UIT2012.Lab4
 	using Microsoft.Kinect;
 	using System.Diagnostics;
 	using System.Collections.Generic;
+	using System.Media;
 
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
@@ -135,6 +136,8 @@ namespace UIT2012.Lab4
 
 		private InputMachine input;
 
+		private SoundPlayer player;
+
 
 		/// <summary>
 		/// Initializes a new instance of the MainWindow class.
@@ -213,6 +216,10 @@ namespace UIT2012.Lab4
 			this.input.registerAddCharacterCallback(this.addCharacter);
 			this.input.registerDeleteCallback(this.deleteCharacter);
 			this.input.registerSelectionCallback(this.selectionChanged);
+
+			this.player = new SoundPlayer();
+			this.player.Stream = Properties.Resources.boing;
+			this.player.Play();
 
 		}
 
@@ -337,14 +344,6 @@ namespace UIT2012.Lab4
 			   // Draw a transparent background to set the render size
 				dc.DrawRectangle(Brushes.Transparent, null, new Rect(0.0, 0.0, RenderWidth, RenderHeight));
 
-				foreach (TouchTarget target in this.targets)
-				{
-					target.draw(dc, deltaT);
-
-					//if (this.drawDebug)
-						target.drawDebug(dc);
-				}
-
 				List<Point> handPoints = new List<Point>();
 
 				foreach (Skeleton skeleton in skeletons)
@@ -354,18 +353,29 @@ namespace UIT2012.Lab4
 						Point headPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.Head].Position);
 						dc.DrawImage(this.monkey.Image, this.head.centerRect(headPos, 1.0));
 					}
+				}
 
+				// draw drums
+				foreach (TouchTarget target in this.targets)
+				{
+					target.draw(dc, deltaT);
+
+					if (this.drawDebug)
+						target.drawDebug(dc);
+				}
+
+				foreach (Skeleton skeleton in skeletons)
+				{
 					if (skeleton.Joints[JointType.HandLeft].TrackingState == JointTrackingState.Tracked &&
 						skeleton.Joints[JointType.WristLeft].TrackingState == JointTrackingState.Tracked)
 					{
 						Point handPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.HandLeft].Position);
 						// Point wristPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.WristLeft].Position);
-
 						// Point extended = handPos + (handPos - wristPos);
 
 						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(handPos, 0.5));
 
-						dc.DrawEllipse(Brushes.Red, new Pen(Brushes.Red, 1), handPos, 3, 3);
+						// dc.DrawEllipse(Brushes.Red, new Pen(Brushes.Red, 1), handPos, 3, 3);
 						handPoints.Add(handPos);
 					}
 
@@ -374,12 +384,11 @@ namespace UIT2012.Lab4
 					{
 						Point handPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.HandRight].Position);
 						// Point wristPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.WristRight].Position);
-
 						// Point extended = handPos + (handPos - wristPos);
 
 						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(handPos, 0.5));
 
-						dc.DrawEllipse(Brushes.Red, new Pen(Brushes.Red, 1), handPos, 3, 3);
+						// dc.DrawEllipse(Brushes.Red, new Pen(Brushes.Red, 1), handPos, 3, 3);
 						handPoints.Add(handPos);
 					}
 				}
@@ -387,15 +396,6 @@ namespace UIT2012.Lab4
 				foreach (TouchTarget target in this.targets)
 				{
 					target.collide(handPoints);
-				}
-
-				// draw drums
-				foreach (TouchTarget target in this.targets)
-				{
-					target.draw(dc, deltaT);
-
-					//if (this.drawDebug)
-					target.drawDebug(dc);
 				}
 
 				if (this.drawDebug)
@@ -426,6 +426,7 @@ namespace UIT2012.Lab4
 		{
 			if (state == TouchTarget.State.enter)
 			{
+				this.player.Play();
 				this.input.enter(s);
 			}
 		}
@@ -520,8 +521,12 @@ namespace UIT2012.Lab4
 		{
 			// Convert point to depth space.  
 			// We are not using depth directly, but we do want the points in our 640x480 output resolution.
-			ColorImagePoint colourPoint = this.sensor.MapSkeletonPointToColor(skelpoint, ColorImageFormat.RgbResolution640x480Fps30);
-			return new Point(colourPoint.X, colourPoint.Y);
+			if (this.sensor != null)
+			{
+				ColorImagePoint colourPoint = this.sensor.MapSkeletonPointToColor(skelpoint, ColorImageFormat.RgbResolution640x480Fps30);
+				return new Point(colourPoint.X, colourPoint.Y);
+			}
+			else return new Point(0, 0);
 		}
 
 		/// <summary>

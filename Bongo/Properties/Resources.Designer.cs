@@ -60,6 +60,12 @@ namespace UIT2012.Lab4.Properties {
             }
         }
         
+        internal static System.IO.UnmanagedMemoryStream boing {
+            get {
+                return ResourceManager.GetStream("boing", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to No ready Kinect found!.
         /// </summary>
