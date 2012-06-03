@@ -416,26 +416,26 @@ namespace UIT2012.Lab4
 						skeleton.Joints[JointType.WristLeft].TrackingState == JointTrackingState.Tracked)
 					{
 						Point handPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.HandLeft].Position);
-						// Point wristPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.WristLeft].Position);
-						// Point extended = handPos + (handPos - wristPos);
+						Point wristPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.WristLeft].Position);
+						Point extended = handPos + (handPos - wristPos);
 
 						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(handPos, 1.7));
 
-						// dc.DrawEllipse(Brushes.Red, new Pen(Brushes.Red, 1), handPos, 3, 3);
-						handPoints.Add(handPos);
+						// dc.DrawEllipse(Brushes.Red, new Pen(Brushes.Red, 1), extended, 3, 3);
+                        handPoints.Add(handPos);
 					}
 
 					if (skeleton.Joints[JointType.HandRight].TrackingState == JointTrackingState.Tracked &&
 						skeleton.Joints[JointType.WristRight].TrackingState == JointTrackingState.Tracked)
 					{
 						Point handPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.HandRight].Position);
-						// Point wristPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.WristRight].Position);
-						// Point extended = handPos + (handPos - wristPos);
+						Point wristPos = this.SkeletonPointToScreen(skeleton.Joints[JointType.WristRight].Position);
+						Point extended = handPos + (handPos - wristPos);
 
-						dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(handPos, 1.7));
+                        dc.DrawImage(this.leftHand.Image, this.leftHand.centerRect(handPos, 1.7));
 
 						// dc.DrawEllipse(Brushes.Red, new Pen(Brushes.Red, 1), handPos, 3, 3);
-						handPoints.Add(handPos);
+                        handPoints.Add(handPos);
 					}
 				}
 

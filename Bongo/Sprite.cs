@@ -59,6 +59,9 @@ namespace UIT2012.Lab4
 			if (Double.IsNaN(angle))
 				angle = 0;
 
+            if (Double.IsNaN(diff.X))
+                diff.X = 0;
+
 			dc.PushTransform(new RotateTransform(Math.Sign(diff.X) * (-1) * angle));
 
 			Vector diff2 = p2 - p1;
